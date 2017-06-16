@@ -1,7 +1,4 @@
 # Полезные шаблоны конфигов для Nginx
-
-Переведено и дополнено на основе репозитория [nginx-conf](https://github.com/lebinh/nginx-conf) от [@lebinh](https://github.com/lebinh)
-
 ## Содержание
 - [Команды Nginx](#Команды-nginx)
 - [Блок location на PHP](#Блок-location-на-php)
@@ -281,5 +278,7 @@ location ~* \.(eot|ttf|woff) {
 - [Nginx Official Guide](http://nginx.com/resources/admin-guide/)
 - [HTML 5 Boilerplate's Sample Nginx Configuration](https://github.com/h5bp/server-configs-nginx)
 - [Nginx Pitfalls](http://wiki.nginx.org/Pitfalls)
+- [Английский оригинал](https://github.com/lebinh/nginx-conf) от [@lebinh](https://github.com/lebinh), без дополнений.
+- [Русский оригинал](https://github.com/elasticweb/nginx-snippets) от [@elasticweb](https://github.com/elasticweb).
 
 [⬆ Наверх](#Содержание)
