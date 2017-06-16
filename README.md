@@ -65,8 +65,7 @@ server {
   server_name www.example.org;
 }
 ```
-*Также работает для HTTPS *
-
+Это будет нормально работать для HTTPS, если используется в соответствующем блоке server{}, где идёт прослушивание 443 порта.
 [⬆ Наверх](#Содержание)
 ### Перенаправление на no-www
 Корректный способ определить удаленный сервер по домену c *www* и перенаправить его без *www*:
@@ -82,6 +81,7 @@ server {
   return 301 $scheme://example.org$request_uri;
 }
 ```
+Это будет нормально работать для HTTPS, если используется в соответствующем блоке server{}, где идёт прослушивание 443 порта.
 [⬆ Наверх](#Содержание)
 ### Перенаправление на HTTPS
 Способ для переадресации с HTTP на HTTPS:  
@@ -107,17 +107,15 @@ rewrite ^([^.\?]*[^/])$ $1/ permanent;
 [⬆ Наверх](#Содержание)
 ### Перенаправление со страницы на страницу
 ```nginx
-server {
-  location = /oldpage.html {
+location = /oldpage.html {
     return 301 http://example.org/newpage.html;
   }
-}
 ```
 [⬆ Наверх](#Содержание)
 ### Перенаправление с сайта на сайт
 ```nginx
 server {
-  server_name old-site.com
+  server_name old-site.com;
   return 301 $scheme://new-site.com$request_uri;
 }
 ```
