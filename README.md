@@ -36,6 +36,7 @@
 * `nginx -t` - протестировать конфигурационный файл и проверить его расположение.
 * `nginx -s reload` - перезапустить конфигурационный файл без перезагрузки Nginx.
 
+[⬆ Наверх](#Содержание)
 ## Location блок на PHP
 Простой шаблон для быстрой и легкой установки PHP, FPM или CGI на ваш сайт.
 ```nginx
@@ -48,6 +49,7 @@ location ~ \.php$ {
   fastcgi_pass unix:/path/to/php.sock;
 }
 ```
+[⬆ Наверх](#Содержание)
 ## Rewrite и Redirection
 ### Force www
 [Корректный способ](http://nginx.org/en/docs/http/converting_rewrite_rules.html) определить удаленный сервер по домену без *www* и перенаправить его c *www*:
@@ -64,6 +66,7 @@ server {
 }
 ```
 *Также работает для HTTPS *
+[⬆ Наверх](#Содержание)
 ### Force no-www
 Корректный способ определить удаленный сервер по домену c *www* и перенаправить его без *www*:
 ```nginx
@@ -78,6 +81,7 @@ server {
   return 301 $scheme://example.org$request_uri;
 }
 ```
+[⬆ Наверх](#Содержание)
 ### Force HTTPS
 Способ для переадресации с HTTP на HTTPS:  
 ```nginx
@@ -93,11 +97,13 @@ server {
   add_header Strict-Transport-Security max-age=2592000;
 }
 ```
+[⬆ Наверх](#Содержание)
 ### Force Trailing Slash
 Данная строка добавляет слэш `/` в конце каждого URL, только в том случаее если в URL нет точки или параметров. Тоесть после *example.com/index.php* или *example.com/do?some=123* слэш не поставится.  
 ```nginx
 rewrite ^([^.\?]*[^/])$ $1/ permanent;
 ```
+[⬆ Наверх](#Содержание)
 ### Редирект на страницу
 ```nginx
 server {
@@ -106,6 +112,7 @@ server {
   }
 }
 ```
+[⬆ Наверх](#Содержание)
 ### Редирект на сайт
 ```nginx
 server {
@@ -113,12 +120,14 @@ server {
   return 301 $scheme://new-site.com$request_uri;
 }
 ```
+[⬆ Наверх](#Содержание)
 ### Редирект на определенный путь в URI
 ```nginx
 location /old-site {
   rewrite ^/old-site/(.*) http://example.org/new-site/$1 permanent;
 }
 ```
+[⬆ Наверх](#Содержание)
 ## Производительность
 ### Кэширование
 Навсегда разрешить браузерам кэшировать статические содержимое. Nginx установит оба заголовка: Expires и Cache-Control.
@@ -135,6 +144,7 @@ location = /empty.gif {
   expires -1;
 }
 ```
+[⬆ Наверх](#Содержание)
 ### Gzip сжатие
 ```nginx
 gzip  on;
@@ -153,6 +163,7 @@ gzip_types
   image/x-icon;
 gzip_disable "msie6";
 ```
+[⬆ Наверх](#Содержание)
 ### Кэш файлов
 Если у вас кешируется большое количество статических файлов через Nginx, то кэширование метаданных этих файлов позволит сэкономить время задержки.
 ```nginx
@@ -161,12 +172,14 @@ open_file_cache_valid 30s;
 open_file_cache_min_uses 2;
 open_file_cache_errors on;
 ```
+[⬆ Наверх](#Содержание)
 ### SSL кэш
 Подключение SSL кэширования позволит возобновлять SSL сессии и сократить время к следующим обращениям к SSL/TLS протоколу.
 ```nginx
 ssl_session_cache shared:SSL:10m;
 ssl_session_timeout 10m;
 ```
+[⬆ Наверх](#Содержание)
 ### Поддержка Upstream
 Активация кеширования c использованием Upstream подключений:
 ```nginx
@@ -184,6 +197,7 @@ server {
   }
 }
 ```
+[⬆ Наверх](#Содержание)
 ### Мониторинг
 По умолчанию [Stub Status](http://nginx.org/ru/docs/http/ngx_http_stub_status_module.html) модуль не собирается, его сборку необходимо разрешить с помощью конфигурационного параметра —with-http_stub_status_module и активировать с помощью:
 ```nginx
@@ -206,6 +220,7 @@ location /status {
 [Пример дашборда от Luameter](https://luameter.com/demo).
 
 Также для сбора статистики отлично подходит [ngxtop](https://github.com/lebinh/ngxtop).
+[⬆ Наверх](#Содержание)
 ## Безопасность
 ### Активация базовой аунтификации
 Для начала вам потребуется создать пароль и сохранить его в обычной текстовом файле:
@@ -217,6 +232,7 @@ location /status {
 auth_basic "This is Protected";
 auth_basic_user_file /path/to/password-file;
 ```
+[⬆ Наверх](#Содержание)
 ### Открыть только локальный доступ
 ```nginx
 location /local {
@@ -224,6 +240,7 @@ location /local {
   deny all;
 }
 ```
+[⬆ Наверх](#Содержание)
 ### Защита SSL настроек
 * Отключить SSLv3, если он включен по умолчанию. Это предотвратит [POODLE SSL Attack](http://nginx.com/blog/nginx-poodle-ssl/).
 * Шифры, которые наилучшим образом обеспечат защиту. [Mozilla Server Side TLS and Nginx](https://wiki.mozilla.org/Security/Server_Side_TLS#Nginx).
@@ -235,6 +252,7 @@ ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
 ssl_ciphers 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA';
 ssl_prefer_server_ciphers  on;
 ```
+[⬆ Наверх](#Содержание)
 ## Прочее
 ### Подзапросы после завершения
 Бывают ситуации, когда вам необходимо передать запрос на другой бэкэнд **в дополнении или после его обработки**. Первый случай -  отслеживать количество завершенных загрузок путем вызова API, после того как пользователь скачал файл. Второй случай  -отслеживать запрос, к которому вы бы хотели вернуться как можно быстрее (возможно с пустым .gif) и сделать соответствующие записи в фоновом режиме.  [**post_action**](http://wiki.nginx.org/HttpCoreModule#post_action), который позволяет вам определить подзапрос и будет отклонен по окончанию текущего запроса - является [лучшим решением](http://mailman.nginx.org/pipermail/nginx/2008-April/004524.html) для обоих вариантов.
@@ -250,6 +268,7 @@ location @track {
   proxy_pass http://tracking-backend;
 }
 ```
+[⬆ Наверх](#Содержание)
 ### Распределение ресурсов между источниками
 Самый простой и наиболее известный способ кросс-доменного запроса на ваш сервер:
 ```nginx
@@ -257,7 +276,10 @@ location ~* \.(eot|ttf|woff) {
   add_header Access-Control-Allow-Origin *;
 }
 ```
+[⬆ Наверх](#Содержание)
 ## Источники
 - [Nginx Official Guide](http://nginx.com/resources/admin-guide/)
 - [HTML 5 Boilerplate's Sample Nginx Configuration](https://github.com/h5bp/server-configs-nginx)
 - [Nginx Pitfalls](http://wiki.nginx.org/Pitfalls)
+
+[⬆ Наверх](#Содержание)
